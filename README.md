@@ -791,6 +791,35 @@ crackmapexec smb 192.168.1.100 -u username -p password -p 445 --shares #specific
 crackmapexec smb 192.168.1.100 -u username -p password -d mydomain --shares #specific domain
 #Inplace of username and password, we can include usernames.txt and passwords.txt for password-spraying or bruteforcing.
 
+# NXC/SMB/KERBEROS/AD QUICK REFERENCE
+nxc smb $IP # Fingerprint SMB
+nxc smb $IP -u 'user' -p 'password' # Test credentials
+nxc smb $IP -u 'user' -p 'password' --shares # Enumerate shares
+nxc smb $IP -u '' -p '' # Null session
+nxc smb $IP -u 'guest' -p '' # Guest
+nxc smb $IP -u 'user' -p 'password' --users # Enumerate users
+nxc smb $IP -u 'user' -p 'password' --groups # Enumerate groups
+# Kerberos requires correct domain + DNS/hostname + time sync
+# Ports: 53 DNS | 88 Kerberos | 389 LDAP | 445 SMB | 464 Kerberos password | 636 LDAPS
+export IP=10.10.10.10
+export DC=dc01.example.local
+export DOMAIN=example.local
+echo "$IP $DC $DOMAIN" | sudo tee -a /etc/hosts # Add DC hostname
+getent hosts $DC # Confirm resolution
+nmap -p 88,389,445 $IP # Check core AD services
+date # Check local time
+nxc smb $IP # Check DC/SMB time
+sudo ntpdate -q $IP # Query DC time
+sudo ntpdate $IP # Sync time with DC
+sudo rdate -n $IP # Alternative time sync
+date # Verify time
+# KRB_AP_ERR_SKEW = clock skew too great → sync time and retry
+nxc smb --help # Check installed NXC options
+nxc smb $DC -u 'user' -p 'password' -d $DOMAIN -k # Kerberos auth
+klist # View cached Kerberos tickets
+# Kerberos flow: credentials/ticket → KDC/DC → Kerberos ticket → target service
+# Kerberos troubleshooting: port 88 → domain → DC hostname/DNS → time sync → credentials/ticket
+
 # Smbclient
 smbclient -L //IP #or try with 4 /'s
 smbclient //server/share
