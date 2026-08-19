@@ -1808,6 +1808,7 @@ impacket-getTGT "$DOMAIN/user:password" # Request Kerberos TGT
 export KRB5CCNAME=$(pwd)/user.ccache # Load ticket cache
 klist # View cached ticket
 nxc smb $DC -u user -d $DOMAIN -k # Authenticate using Kerberos
+ssh -o GSSAPIAuthentication=yes bob@server.example.local # Authenticate over SSH
 ```
 
 ### AS-REP Roasting
