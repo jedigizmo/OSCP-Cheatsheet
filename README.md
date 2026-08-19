@@ -1803,10 +1803,12 @@ crackmapexec smb <IP or subnet> -u users.txt -p 'pass' -d <domain> --continue-on
 kerbrute passwordspray -d corp.com .\usernames.txt "pass"
 ```
 ### Requesting a Kerberos TGT
+```bash
 impacket-getTGT "$DOMAIN/user:password" # Request Kerberos TGT
 export KRB5CCNAME=$(pwd)/user.ccache # Load ticket cache
 klist # View cached ticket
 nxc smb $DC -u user -d $DOMAIN -k # Authenticate using Kerberos
+```
 
 ### AS-REP Roasting
 
