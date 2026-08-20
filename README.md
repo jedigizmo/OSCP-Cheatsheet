@@ -1183,6 +1183,10 @@ searchsploit -m windows/remote/46697.py #Copies the exploit to the current locat
 ```
 
 ## Reverse Shells
+Use Penelope!!
+```bash
+penelope -p 9001
+```
 
 ### Msfvenom
 
