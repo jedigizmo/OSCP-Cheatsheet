@@ -819,6 +819,8 @@ nxc smb $DC -u 'user' -p 'password' -d $DOMAIN -k # Kerberos auth
 klist # View cached Kerberos tickets
 # Kerberos flow: credentials/ticket → KDC/DC → Kerberos ticket → target service
 # Kerberos troubleshooting: port 88 → domain → DC hostname/DNS → time sync → credentials/ticket
+#Enumerate RIDs with credentials
+nxc smb $IP -u '' -p '' --rid-brute
 
 # Smbclient
 smbclient -L //IP #or try with 4 /'s
