@@ -1266,7 +1266,7 @@ Get-ChildItem -Path C:\Users\dave\ -Include *.txt,*.pdf,*.xls,*.xlsx,*.doc,*.doc
 
 #Service Information
 Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
-Get-CimInstance -ClassName Win32_Service | Where-Object {$_.StartMode -eq 'Auto' -and $_.State -eq 'Running'} | Select-Object Name,StartName,StartMode,State,PathName
+Get-CimInstance -ClassName Win32_Service | Where-Object {$_.StartMode -eq 'Auto' -and $_.State -eq 'Running' -and $_.StartName -eq 'LocalSystem'} | Select-Object Name,StartName,StartMode,State,PathName
 ```
 
 ## Automated Scripts
