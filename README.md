@@ -1730,6 +1730,20 @@ bloodhound-python -u 'uname' -p 'pass' -ns <rhost> -d <domain-name> -c all #outp
 sudo neo4j console
 # then upload the .json files obtained
 ```
+```bash
+cd ~/oscp/activedirectory/bloodhound-ce
+cp ~/.nxc/logs/*bloodhound.zip ./bloodhound.zip
+docker-compose up -d
+docker-compose ps
+docker-compose logs bloodhound | grep -i password
+#URL:      http://127.0.0.1:8080
+#Username: admin
+#Password: <password shown in Docker logs>
+#Upload Zip
+cd ~/oscp/activedirectory/bloodhound-ce
+docker-compose down
+```
+
 
 ### LDAPDOMAINDUMP
 
