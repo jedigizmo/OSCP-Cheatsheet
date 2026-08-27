@@ -1741,7 +1741,7 @@ docker-compose logs bloodhound | grep -i password
 #Password: <password shown in Docker logs>
 #Upload Zip
 cd ~/oscp/activedirectory/bloodhound-ce
-docker-compose down
+docker-compose down #or docker-compose down -d if you want to wipe, recommended so the password is fresh in the logs
 ```
 
 
