@@ -800,6 +800,7 @@ nxc smb $IP -u 'user' -p 'password' --shares # Enumerate shares
 nxc smb $IP -u '' -p '' # Null session
 nxc smb $IP -u 'guest' -p '' # Guest
 nxc smb $IP -u 'user' -p 'password' --users # Enumerate users
+    #grep '^LDAP' ldap.txt | grep -E '[0-9]{4}-[0-9]{2}-[0-9]{2}|<never>' | awk '{print $5}' > users.txt
 nxc smb $IP -u 'user' -p 'password' --groups # Enumerate groups
 # Kerberos requires correct domain + DNS/hostname + time sync
 # Ports: 53 DNS | 88 Kerberos | 389 LDAP | 445 SMB | 464 Kerberos password | 636 LDAPS
