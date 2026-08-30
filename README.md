@@ -1278,7 +1278,7 @@ Get-CimInstance -ClassName Win32_Service | Where-Object {$_.StartMode -eq 'Manua
 winpeas.exe
 winpeas.bat
 Jaws-enum.ps1
-powerup.ps1
+powerup.ps1 #for windows
 PrivescCheck.ps1
 ```
 
