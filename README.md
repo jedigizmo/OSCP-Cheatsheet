@@ -1589,6 +1589,7 @@ watch -n 1 "ps -aux | grep pass" #Harvesting active processes for credentials
 ```bash
 sudo -l
 find / -perm -u=s -type f 2>/dev/null
+find /usr/bin /usr/sbin /bin /sbin -type f -perm -4000 -ls 2>/dev/null
 getcap -r / 2>/dev/null
 ```
 
