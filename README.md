@@ -721,6 +721,7 @@ sudo ip r add <subnet> dev ligolo
 nmap -sC -sV <IP> -v #Basic scan
 nmap -T4 -A -p- <IP> -v #complete scan
 sudo nmap -sV -p 443 --script "vuln" 192.168.50.124 #running vuln category scripts
+sudo nmap -Pn -p- --min-rate 5000 -T4 <IP> -oA allports
 
 #NSE
 updatedb
