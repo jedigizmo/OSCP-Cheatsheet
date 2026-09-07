@@ -431,7 +431,7 @@ git show <commit-id>
 ## Connecting to RDP
 
 ```bash
-xfreerdp /u:uname /p:'pass' /v:IP
+xfreerdp /u:uname /p:'pass' /v:IP /cert:ignore
 xfreerdp /d:domain.com /u:uname /p:'pass' /v:IP
 xfreerdp /u:uname /p:'pass' /v:IP +clipboard #try this option if normal login doesn't work
 xfreerdp3 /v:10.10.166.204 /u:'User' /p:'Pass' /cert:ignore +clipboard /dynamic-resolution /drive:/opt/tools/privesc/,share
