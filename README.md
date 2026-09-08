@@ -1563,6 +1563,7 @@ Mestaploit: multi/recon/local_exploit_suggester
 cat .bashrc
 env #checking environment variables
 watch -n 1 "ps -aux | grep pass" #Harvesting active processes for credentials
+grep -RniI -E 'pass(word|wd)?|passwd|credential|creds|secret|token|api[_-]?key|private[_-]?key|username|user(name)?|login|connection|string|server|database|db_|jdbc|ssh|rdp|putty|winrm|administrator|admin|backup|config' . 2>/dev/null
 # Process-related information can also be obtained from PSPY
 ```
 
