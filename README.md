@@ -791,6 +791,7 @@ date # Check local time
 nxc smb $IP # Check DC/SMB time
 sudo ntpdate -q $IP # Query DC time
 sudo ntpdate $IP # Sync time with DC
+sudo timedatectl set-ntp true #to reset back to normal
 sudo rdate -n $IP # Alternative time sync
 date # Verify time
 # KRB_AP_ERR_SKEW = clock skew too great → sync time and retry
