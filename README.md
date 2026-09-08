@@ -788,12 +788,8 @@ echo "$IP $DC $DOMAIN" | sudo tee -a /etc/hosts # Add DC hostname
 getent hosts $DC # Confirm resolution
 nmap -p 88,389,445 $IP # Check core AD services
 date # Check local time
-nxc smb $IP # Check DC/SMB time
 sudo ntpdate -q $IP # Query DC time
-sudo ntpdate $IP # Sync time with DC
-sudo timedatectl set-ntp true #to reset back to normal
-sudo rdate -n $IP # Alternative time sync
-date # Verify time
+faketime '+25199 seconds' #sync DC time by offset
 # KRB_AP_ERR_SKEW = clock skew too great → sync time and retry
 nxc smb --help # Check installed NXC options
 nxc smb $DC -u 'user' -p 'password' -d $DOMAIN -k # Kerberos auth
