@@ -1030,6 +1030,7 @@ querydispinfo #description of all users
 netshareenum #Share enumeration, this only comesup if the current user we're logged in has permissions
 netshareenumall
 lsaenumsid #SID of all users
+rpcclient -U '<Domain>/USERNAME%PASSWORD' <DC-IP> -c 'enumdomusers' | grep -oP 'rid:\[\K[^]]+' | while read rid; do echo "===== $rid ====="; rpcclient -U '<Domain>/USERNAME%PASSWORD' <DC-IP> -c "queryuser $rid"; done
 ```
 
 ---
