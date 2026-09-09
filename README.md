@@ -1011,7 +1011,11 @@ snmpwalk -c public -v1 <IP> 1.3.6.1.2.1.6.13.1.3 #Opened TCP Ports
 ```
 ```bash
 #Linux MID Values
-snmpwalk -v2c -c public <IP> 1.3.6.1.2.1.1
+snmpwalk -v2c -c public <IP> 1.3.6.1.2.1.1 #everything
+snmpwalk -v2c -c public <IP> 1.3.6.1.2.1.25.4.2.1.2 #running process
+snmpwalk -v2c -c public <IP> 1.3.6.1.2.1.25.4.2.1.4 #process executable paths
+snmpwalk -v2c -c public <IP> 1.3.6.1.2.1.25.4.2.1.5 #process arguments
+snmpwalk -v2c -c public <IP> 1.3.6.1.2.1.25.6.3.1.2 #installed software
 ```
 ## RPC Enumeration
 
