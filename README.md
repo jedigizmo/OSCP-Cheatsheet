@@ -697,7 +697,8 @@ lsadump::lsa /patch #both these dump SAM
 nmap -sC -sV <IP> -v #Basic scan
 nmap -T4 -A -p- <IP> -v #complete scan
 sudo nmap -sV -p 443 --script "vuln" 192.168.50.124 #running vuln category scripts
-sudo nmap -Pn -p- --min-rate 5000 -T4 <IP> -oA allports
+sudo nmap -Pn -p- --min-rate 5000 -T4 <IP> #Scanning all ports
+sudo nmap -Pn -sU --top-ports 100 --open --reason <IP> #UDP Scan
 
 #NSE
 updatedb
