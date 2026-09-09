@@ -879,9 +879,10 @@ curl -i http://192.168.50.16:5002/users/v1
 - Also check if there’s any file upload utility(also obtain the location it’s getting reflected)
 
 ### Fuzzing
+```bash
 ffuf -u http://<IP>/ -H 'Host: FUZZ' -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -ac
 feroxbuster -u http://<IP> -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt -x php,txt,html,bak,old,zip
-
+```
 ### Wordpress
 
 ```powershell
