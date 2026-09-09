@@ -1009,7 +1009,10 @@ snmpwalk -c public -v1 <IP> 1.3.6.1.2.1.6.13.1.3 #Opened TCP Ports
 1.3.6.1.4.1.77.1.2.25 - User Accounts
 1.3.6.1.2.1.6.13.1.3 - TCP Local Ports
 ```
-
+```bash
+#Linux MID Values
+snmpwalk -v2c -c public <IP> 1.3.6.1.2.1.1
+```
 ## RPC Enumeration
 
 ```powershell
