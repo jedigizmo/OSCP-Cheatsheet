@@ -1751,7 +1751,11 @@ docker-compose logs bloodhound | grep -i password
 cd ~/oscp/activedirectory/bloodhound-ce
 docker-compose down #or docker-compose down -v if you want to wipe, recommended so the password is fresh in the logs
 ```
-
+```bash
+MATCH (c:User {name:'USER@DOMAIN.LOCAL'})
+SET c.system_tags = trim(replace(c.system_tags, 'owned', ''))
+RETURN c.system_tags
+```
 
 ### LDAPDOMAINDUMP
 
