@@ -853,7 +853,7 @@ mget *
 
 ```powershell
 dirbuster
-gobuster dir -u http://example.com -w /path/to/wordlist.txt -t 100 #run it with 100 threads 
+gobuster dir -u http://example.com/ -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 100
 python3 dirsearch.py -u http://example.com -w /path/to/wordlist.txt
 ```
 
