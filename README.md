@@ -1567,6 +1567,7 @@ lsmod #Listing loaded drivers
 watch -n 1 "ps -aux | grep pass" #Checking processes for credentials
 sudo tcpdump -i lo -A | grep "pass" #Password sniffing using tcpdump
 
+./pspy64 -pf -i 1000 #monitor process with pspy every 1000ms
 ```
 
 ## Automated Scripts
