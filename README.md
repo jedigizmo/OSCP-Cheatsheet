@@ -1545,7 +1545,7 @@ reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>nul | findstr "DefaultUserName DefaultDomainName DefaultPassword"  
 
 ### SNMP Parameters  
-reg query "HKLM\SYSTEM\Current\ControlSet\Services\SNMP"  
+reg query "HKLM\SYSTEM\CurrentControlSet\Services\SNMP"
 
 ### Putty  
 reg query "HKCU\Software\SimonTatham\PuTTY\Sessions"  
