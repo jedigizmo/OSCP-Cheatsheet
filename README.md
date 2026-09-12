@@ -1302,7 +1302,7 @@ Start-Process 'C:\Windows\System32\cmd.exe' -Credential $cred -WorkingDirectory 
 winpeas.exe
 winpeas.bat
 Jaws-enum.ps1
-powerup.ps1 #for windows
+Import-Module .\PowerUp.ps1; Invoke-AllChecks    # Run PowerUp privesc enumeration for windows
 PrivescCheck.ps1
 ```
 
