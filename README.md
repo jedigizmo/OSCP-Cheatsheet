@@ -1650,6 +1650,7 @@ pspy #handy tool to live monitor stuff happening in Linux
 
 grep "CRON" /var/log/syslog #inspecting cron logs
 ```
+https://medium.com/@betigetin/linux-privilege-escalation-by-exploiting-cron-jobs-writable-scripts-path-hijacking-wildcard-7df73edb4d3d
 ## Tar Wildcard
 ```bash
 cd /opt/backups
